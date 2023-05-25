@@ -3,7 +3,7 @@ import './App.css';
 import {ethers} from 'ethers'
 import { useState } from 'react';
 import TokenArtifact from "./artifacts/contracts/MDToken.sol/Token.json"
-const tokenAddress = "0x5fbdb2315678afecb367f032d93f642f64180aa3"
+const tokenAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
 
 
 function App() {
