@@ -10,17 +10,19 @@ npm install ethers hardhat @nomiclabs/hardhat-waffle ethereum-waffle @nomiclabs/
 
 ## Set Up HardHat
 
-npx hardhat
+### `npx hardhat`
 
 ## Build The Contract
 
+Create the solidity file in the contracts directory and update the deploy.js file to specify how to deploy the token inside the scripts directory. Update the hardhat configuration file as well.
+
 ## Get A Local Node Running
 
-npx hardhat node
+### `npx hardhat node`
 
 ## Deploy Contract Using Command Line
 
-npx hardhat run --network localhost scripts/deploy.js
+### `npx hardhat run --network localhost scripts/deploy.js`
 
 ## Available Scripts
 
