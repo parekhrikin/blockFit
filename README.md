@@ -2,11 +2,11 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-npx create-react-app .
+### `npx create-react-app .`
 
 ## Install Libraries and Hardhat for the Project
 
-npm install ethers hardhat @nomiclabs/hardhat-waffle ethereum-waffle @nomiclabs/hardhat-ethers chai
+### `npm install ethers hardhat @nomiclabs/hardhat-waffle ethereum-waffle @nomiclabs/hardhat-ethers chai`
 
 ## Set Up HardHat
 
