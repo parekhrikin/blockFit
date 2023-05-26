@@ -2,6 +2,26 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+npx create-react-app .
+
+## Install Libraries and Hardhat for the Project
+
+npm install ethers hardhat @nomiclabs/hardhat-waffle ethereum-waffle @nomiclabs/hardhat-ethers chai
+
+## Set Up HardHat
+
+npx hardhat
+
+## Build The Contract
+
+## Get A Local Node Running
+
+npx hardhat node
+
+## Deploy Contract Using Command Line
+
+npx hardhat run --network localhost scripts/deploy.js
+
 ## Available Scripts
 
 In the project directory, you can run:
