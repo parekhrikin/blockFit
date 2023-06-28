@@ -1,6 +1,42 @@
+import { useEffect, useState } from "react";
 import "./WelcomePage.css";
 
+ // Login with metamask https://docs.metamask.io/wallet/tutorials/react-dapp-local-state/
+
+const registerUserMetamask = () => {
+  
+  if (window.ethereum) {
+
+
+  }
+  
+}
+
+const loginUserMetaMask = () => {
+ 
+  
+  if (window.ethereum) {
+
+    console.log("ismetamask", window.ethereum.isMetaMask);
+    return;
+  }
+  
+  console.log("no meta mask");
+}
+
 const WelcomePage = () => {
+
+  const [isMetaMask, setIsMetaMask] = useState(false);
+
+  useEffect(()=>{
+
+    if (window.ethereum) {
+      setIsMetaMask(window.ethereum.isMetaMask);
+    }
+
+  }, [window.ethereum]);
+
+
   return (
     <div className="container">
       <ul className="nav nav-tabs" id="account-tabs" role="tablist">
@@ -40,33 +76,18 @@ const WelcomePage = () => {
           id="sing-in"
           role="tabpanel"
           aria-labelledby="signin-tab"
-        >
-          <form className="form-signin text-center">
-            <img src="./logo512.png" alt="" width="72" height="72" />
-            <h3> Sign in </h3>
-            <div className="form-group mb-2">
-              <label htmlFor="exampleInputEmail1">Email address</label>
-              <input
-                type="email"
-                className="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-                placeholder="Enter email"
-              />
-            </div>
-            <div className="form-group mb-2">
-              <label htmlFor="exampleInputPassword1">Password</label>
-              <input
-                type="password"
-                className="form-control"
-                id="exampleInputPassword1"
-                placeholder="Password"
-              />
-            </div>
-            <button type="submit" className="btn btn-outline-success">
-              Submit
-            </button>
-          </form>
+        >      
+        <h1> Welcome to BlockFit </h1>
+        {
+          isMetaMask && 
+          <button className="btn btn-outline-success" onClick={loginUserMetaMask} id="login-button">
+            Login with Metamask
+          </button>          
+        }
+        {
+          !isMetaMask && 
+          <h2>Download metamask to login</h2>
+        }
         </div>
         <div
           className="tab-pane fade"
@@ -75,7 +96,7 @@ const WelcomePage = () => {
           aria-labelledby="register-tab"
         >
           <form className="form-register text-center">
-            <img src="./logo512.png" alt="" width="72" height="72" />
+            <img src="./logo.png" alt="" width="72" height="72" />
             <h3> Register </h3>
             <div className="form-group mb-2">
               <label htmlFor="registerEmail">Email address</label>
@@ -103,10 +124,12 @@ const WelcomePage = () => {
                 placeholder="Repeat password"
               />
             </div>
-            <button type="submit" className="btn btn-outline-success">
+            
+            <button type="submit" className="btn btn-outline-success">              
               Submit
-            </button>
+            </button>            
           </form>
+          <button className="btn btn-outline-warning" id="register-button" disabled={isMetaMask} onClick={registerUserMetamask()}> Register with Metamask </button>
         </div>
       </div>
     </div>
