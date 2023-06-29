@@ -1,41 +1,37 @@
 import { useEffect, useState } from "react";
 import "./WelcomePage.css";
 
- // Login with metamask https://docs.metamask.io/wallet/tutorials/react-dapp-local-state/
-
-const registerUserMetamask = () => {
-  
-  if (window.ethereum) {
-
-
-  }
-  
-}
-
-const loginUserMetaMask = () => {
- 
-  
-  if (window.ethereum) {
-
-    console.log("ismetamask", window.ethereum.isMetaMask);
-    return;
-  }
-  
-  console.log("no meta mask");
-}
-
 const WelcomePage = () => {
-
   const [isMetaMask, setIsMetaMask] = useState(false);
+  const initialState = { accounts: [] };
+  const [wallet, setWallet] = useState(initialState);
 
-  useEffect(()=>{
+  // Login with metamask https://docs.metamask.io/wallet/tutorials/react-dapp-local-state/
+  const registerUserMetamask = async () => {
 
+  }
+
+  const loginUserMetaMask = async () => {
+
+    if (window.ethereum) {
+
+      let accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+
+      setWallet({accounts});
+  
+      //console.log("window.etherum", window.ethereum);
+      console.log("window.ethereum.accounts[0]", wallet);
+      localStorage.setItem("userWalletId", wallet.accounts[0]);
+    }
+  };
+
+  useEffect(() => {
     if (window.ethereum) {
       setIsMetaMask(window.ethereum.isMetaMask);
     }
-
   }, [window.ethereum]);
-
 
   return (
     <div className="container">
@@ -76,18 +72,18 @@ const WelcomePage = () => {
           id="sing-in"
           role="tabpanel"
           aria-labelledby="signin-tab"
-        >      
-        <h1> Welcome to BlockFit </h1>
-        {
-          isMetaMask && 
-          <button className="btn btn-outline-success" onClick={loginUserMetaMask} id="login-button">
-            Login with Metamask
-          </button>          
-        }
-        {
-          !isMetaMask && 
-          <h2>Download metamask to login</h2>
-        }
+        >
+          <h1> Welcome to BlockFit </h1>
+          {isMetaMask  && (
+            <button
+              className="btn btn-outline-success"
+              onClick={loginUserMetaMask}
+              id="login-button"
+            >
+              Login with Metamask
+            </button>
+          )}
+          {!isMetaMask && <h2>Download metamask to login</h2>}
         </div>
         <div
           className="tab-pane fade"
@@ -124,12 +120,19 @@ const WelcomePage = () => {
                 placeholder="Repeat password"
               />
             </div>
-            
-            <button type="submit" className="btn btn-outline-success">              
+
+            <button type="submit" className="btn btn-outline-success">
               Submit
-            </button>            
+            </button>
           </form>
-          <button className="btn btn-outline-warning" id="register-button" disabled={isMetaMask} onClick={registerUserMetamask()}> Register with Metamask </button>
+          <button
+            className="btn btn-outline-warning"
+            id="register-button"
+            disabled={isMetaMask}
+            onClick={registerUserMetamask}
+          >            
+            Register with Metamask
+          </button>
         </div>
       </div>
     </div>
