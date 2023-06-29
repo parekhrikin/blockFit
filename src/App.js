@@ -85,7 +85,6 @@ function App() {
           placeholder="Amount"
         />
       </header>
-  
   )*/
   return (
     <div className="App">
