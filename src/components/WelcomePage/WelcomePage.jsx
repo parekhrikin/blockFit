@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import "./WelcomePage.css";
+import { useNavigate } from "react-router-dom";
 
 const WelcomePage = () => {
   const [isMetaMask, setIsMetaMask] = useState(false);
   const initialState = { accounts: [] };
   const [wallet, setWallet] = useState(initialState);
+  const navigate = useNavigate();
 
   // Login with metamask https://docs.metamask.io/wallet/tutorials/react-dapp-local-state/
   const registerUserMetamask = async () => {
@@ -12,20 +14,37 @@ const WelcomePage = () => {
   }
 
   const loginUserMetaMask = async () => {
-
+    
     if (window.ethereum) {
 
-      let accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
+      await window.ethereum.request({
 
-      setWallet({accounts});
-  
-      //console.log("window.etherum", window.ethereum);
-      console.log("window.ethereum.accounts[0]", wallet);
-      localStorage.setItem("userWalletId", wallet.accounts[0]);
+        method: "eth_requestAccounts",
+
+      }).then ((accounts) => {
+        
+        setWallet({accounts});
+        console.log("accounts", accounts)
+        localStorage.setItem("userWalletId", accounts[0]);
+        navigate("/dash");
+
+      })
+      .catch((err) => {
+
+        console.log(err);
+      });            
     }
   };
+
+  useEffect(()=>{
+
+    if (wallet[0]) {
+
+      navigate("/dash");
+
+    }
+
+  }, [wallet])
 
   useEffect(() => {
     if (window.ethereum) {
@@ -127,8 +146,7 @@ const WelcomePage = () => {
           </form>
           <button
             className="btn btn-outline-warning"
-            id="register-button"
-            disabled={isMetaMask}
+            id="register-button"          
             onClick={registerUserMetamask}
           >            
             Register with Metamask

@@ -3,11 +3,24 @@ import "./App.css";
 import { ethers } from "ethers";
 import { useState } from "react";
 import TokenArtifact from "./artifacts/contracts/MDToken.sol/Token.json";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import WelcomePage from "./components/WelcomePage/WelcomePage";
+import Dashboard from "./components/Dashboard/Dashboard";
 
 const tokenAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
+const Routing = () => {
 
+  const navigate = useNavigate();  
+
+  return (
+    <Routes>
+      <Route exact path="/" element={<WelcomePage />} />
+      <Route path="/dash" element={<Dashboard />} />      
+    </Routes>
+  );
+
+};
 
 function App() {
 /*  const [tokenData, setTokenData] = useState({});
@@ -54,13 +67,9 @@ function App() {
       console.log("Account Balance: ", balance.toString());
     }
   }
-*/
+
   return (
-    <div className="App">
-      <WelcomePage />
-    </div>
-  );
-  /*
+    
     <header className="App-header">
         <button onClick={_getTokenData}>get token data</button>
         <h1>{tokenData.name}</h1>
@@ -76,6 +85,15 @@ function App() {
           placeholder="Amount"
         />
       </header>
-  */
+  
+  )*/
+  return (
+    <div className="App">
+      <BrowserRouter>
+        <Routing />
+      </BrowserRouter>
+    </div>
+  );
+  
 }
 export default App;
