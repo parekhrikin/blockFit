@@ -10,23 +10,25 @@ const WelcomePage = () => {
 
   // Login with metamask https://docs.metamask.io/wallet/tutorials/react-dapp-local-state/
   const registerUserMetamask = async () => {
-
+      
   }
 
+  // handling the login with metamask button 
   const loginUserMetaMask = async () => {
     
-    if (window.ethereum) {
+    
+    if (window.ethereum) { 
 
-      await window.ethereum.request({
+      await window.ethereum.request({ // fetching account details from wallet
 
         method: "eth_requestAccounts",
 
       }).then ((accounts) => {
         
-        setWallet({accounts});
+        setWallet({accounts});  
         console.log("accounts", accounts)
-        localStorage.setItem("userWalletId", accounts[0]);
-        navigate("/dash");
+        localStorage.setItem("userWalletId", accounts[0]); // storing public key in local storage
+        navigate("/dash");  // navigating to the dashboard
 
       })
       .catch((err) => {
@@ -36,20 +38,13 @@ const WelcomePage = () => {
     }
   };
 
-  useEffect(()=>{
-
-    if (wallet[0]) {
-
-      navigate("/dash");
-
-    }
-
-  }, [wallet])
-
   useEffect(() => {
+
     if (window.ethereum) {
-      setIsMetaMask(window.ethereum.isMetaMask);
+
+      setIsMetaMask(window.ethereum.isMetaMask); 
     }
+
   }, [window.ethereum]);
 
   return (
@@ -108,45 +103,19 @@ const WelcomePage = () => {
           className="tab-pane fade"
           id="register"
           role="tabpanel"
-          aria-labelledby="register-tab"
-        >
-          <form className="form-register text-center">
-            <img src="./logo.png" alt="" width="72" height="72" />
-            <h3> Register </h3>
-            <div className="form-group mb-2">
-              <label htmlFor="registerEmail">Email address</label>
-              <input
-                type="email"
-                className="form-control"
-                id="registerEmail"
-                aria-describedby="emailHelp"
-                placeholder="Enter email"
-              />
-            </div>
-            <div className="form-group mb-2">
-              <label htmlFor="registerPassword">Password</label>
-              <input
-                type="password"
-                className="form-control mb-2"
-                id="registerPassword"
-                placeholder="Password"
-              />
-              <label htmlFor="registerRepeatPassword">Repeat password</label>
-              <input
-                type="password"
-                className="form-control"
-                id="registerRepeatPassword"
-                placeholder="Repeat password"
-              />
-            </div>
-
-            <button type="submit" className="btn btn-outline-success">
-              Submit
-            </button>
-          </form>
+          aria-labelledby="register-tab"          
+        >          
+          <img src="./logo.png" alt="" width="72" height="72" id="logo-img"/>   
+          <button
+            className="btn btn-outline-primary"
+            id="register-google-button"          
+            onClick={registerUserMetamask}
+          >            
+            Register with Google
+          </button>
           <button
             className="btn btn-outline-warning"
-            id="register-button"          
+            id="register-metamask-button"          
             onClick={registerUserMetamask}
           >            
             Register with Metamask
