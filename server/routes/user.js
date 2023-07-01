@@ -32,6 +32,8 @@ router.post("/addUser", function (req, res) {
   }
 });
 
+
+/ * TODO - Use encryption to encrypt user data.* /
 router.get("/signin", function (req, res) {
   
   if (!req.query.walletId) {
@@ -54,6 +56,7 @@ router.get("/signin", function (req, res) {
         }
 
         const { _id, name, walletId } = user;
+        console.log("user details", user);
         return res.json({ user: { _id, name, walletId }});
 
       }).catch((err) => {
