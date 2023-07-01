@@ -4,47 +4,50 @@ import { useNavigate } from "react-router-dom";
 
 const WelcomePage = () => {
   const [isMetaMask, setIsMetaMask] = useState(false);
-  const initialState = { accounts: [] };
-  const [wallet, setWallet] = useState(initialState);
   const navigate = useNavigate();
 
   // Login with metamask https://docs.metamask.io/wallet/tutorials/react-dapp-local-state/
-  const registerUserMetamask = async () => {
+  const registerUserMetamask = async () => {};
 
-  }
-
+  // handling the login with metamask button
   const loginUserMetaMask = async () => {
-    
+
     if (window.ethereum) {
+      await window.ethereum
+        .request({
+          // fetching account details from wallet
 
-      await window.ethereum.request({
+          method: "eth_requestAccounts",
+        })
+        .then((accounts) => {
+          
+          console.log("accounts", accounts);
+          
+          fetch(`/signin?walletId=${accounts[0]}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },            
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.error) {
+                console.log("error signing in", data);
+              } else {
+                localStorage.setItem("userWalletId", accounts[0]); // storing public key in local storage
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
 
-        method: "eth_requestAccounts",
-
-      }).then ((accounts) => {
-        
-        setWallet({accounts});
-        console.log("accounts", accounts)
-        localStorage.setItem("userWalletId", accounts[0]);
-        navigate("/dash");
-
-      })
-      .catch((err) => {
-
-        console.log(err);
-      });            
+          navigate("/dash"); // navigating to the dashboard
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
-
-  useEffect(()=>{
-
-    if (wallet[0]) {
-
-      navigate("/dash");
-
-    }
-
-  }, [wallet])
 
   useEffect(() => {
     if (window.ethereum) {
@@ -93,7 +96,7 @@ const WelcomePage = () => {
           aria-labelledby="signin-tab"
         >
           <h1> Welcome to BlockFit </h1>
-          {isMetaMask  && (
+          {isMetaMask && (
             <button
               className="btn btn-outline-success"
               onClick={loginUserMetaMask}
@@ -110,45 +113,19 @@ const WelcomePage = () => {
           role="tabpanel"
           aria-labelledby="register-tab"
         >
-          <form className="form-register text-center">
-            <img src="./logo.png" alt="" width="72" height="72" />
-            <h3> Register </h3>
-            <div className="form-group mb-2">
-              <label htmlFor="registerEmail">Email address</label>
-              <input
-                type="email"
-                className="form-control"
-                id="registerEmail"
-                aria-describedby="emailHelp"
-                placeholder="Enter email"
-              />
-            </div>
-            <div className="form-group mb-2">
-              <label htmlFor="registerPassword">Password</label>
-              <input
-                type="password"
-                className="form-control mb-2"
-                id="registerPassword"
-                placeholder="Password"
-              />
-              <label htmlFor="registerRepeatPassword">Repeat password</label>
-              <input
-                type="password"
-                className="form-control"
-                id="registerRepeatPassword"
-                placeholder="Repeat password"
-              />
-            </div>
-
-            <button type="submit" className="btn btn-outline-success">
-              Submit
-            </button>
-          </form>
+          <img src="./logo.png" alt="" width="72" height="72" id="logo-img" />
+          <button
+            className="btn btn-outline-primary"
+            id="register-google-button"
+            onClick={registerUserMetamask}
+          >
+            Register with Google
+          </button>
           <button
             className="btn btn-outline-warning"
-            id="register-button"          
+            id="register-metamask-button"
             onClick={registerUserMetamask}
-          >            
+          >
             Register with Metamask
           </button>
         </div>

@@ -99,3 +99,7 @@ typechain-types
 cache
 artifacts
 
+# Server files
+
+./server/node_modules
+
